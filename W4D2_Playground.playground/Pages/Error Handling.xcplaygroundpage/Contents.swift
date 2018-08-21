@@ -53,26 +53,54 @@ catch let error {
  - Experiment:
  Create a Human class that has a name and age property. Also, create an initializer for this class to set its initial properties.
  */
+enum HumanError: Error {
+  case NameIsEmpty
+  case AgeIsInvalid
+}
 
-
+class Human{
+  var name: String = ""
+  var age: Int = 0
+  
+  init(name: String, age: Int) throws {
+    if name == "" {
+      throw HumanError.NameIsEmpty
+    }
+    if age < 19 {
+      throw HumanError.AgeIsInvalid
+    }
+    
+    self.name = name
+    self.age = age
+  }
+}
 /*:
  - Experiment:
  Create your own errors that throw when the name provided is empty or if the age is invalid. Go back and update the Human's initializer to throw an error when the data passed in is invalid.
  */
-
+//see above
 
 /*:
  - Experiment:
  Now you can test your new Human class and surround it around the do-catch blocks.
  */
 
-
+do{
+  let human1 = try Human(name: "John Smith", age: 18)
+  print ("initialized \(human1)")
+}catch let error{
+  print("An error is thrown: \(error)")
+}
 /*:
  - Experiment:
  Test your Human class again but don't surround it with a do-catch block and use `try?` instead. What do you notice? (What is the value of the new human when an error is thrown?)
  */
 
+let human2 = try? Human(name: "John Smith", age: 18)
 
+//human2 is nil when an error is thrown
+
+//variable is Human?
 /*:
  - Experiment:
  Given the following JSON data, try to parse the JSON using `JSONSerialization`, then print out each key-value.
@@ -81,7 +109,18 @@ catch let error {
  */
 let data = "{\"firstName\": \"Bob\", \"lastName\": \"Doe\", \"vehicles\": [\"car\", \"motorcycle\", \"train\"]}".data(using: .utf8)!
 
-
+do{
+  
+  if let object = try JSONSerialization .jsonObject(with: data, options: []) as? [String: String]{
+  
+    for (key, value) in object{
+      print ("Key \(key) : Value \(value)")
+    }
+  }
+}
+catch let error{
+    print("An error is thrown: \(error)")
+}
 /*:
  - Callout(Challenge):
  Going back to our challenge from "More Optionals", let's rewrite the form valiation but we will use throw errors to indicate which piece is missing. We want to write a function that validates form data filled in by a user. Once we encounter the first field that is blank, we want to throw an error indicating which field is empty. Otherwise, print out all the information.
@@ -101,6 +140,32 @@ let email: String? = "user1@lighthouselabs.ca"
 //let password: String? = nil
 //let email: String? = "user1@lighthouselabs.ca"
 
+enum FormError: Error {
+  case UserNameIsEmpty
+  case PasswordIsEmpty
+  case EmailIsEmpty
+}
+func formValidation(username: String, password: String, email: String) throws -> Bool{
+
+  if password == "" {
+    throw FormError.PasswordIsEmpty
+  }
+
+  if username == "" {
+    throw FormError.UserNameIsEmpty
+  }
+  if email == "" {
+    throw FormError.EmailIsEmpty
+  }
+  return true
+}
+
+do{
+  let _ = try formValidation(username: "asdg", password: "", email: "sdfsd@yahoo.com")
+  
+}catch let error {
+     print("An error is thrown: \(error)")
+}
 
 /*:
  - Callout(Challenge):
@@ -110,14 +175,49 @@ let email: String? = "user1@lighthouselabs.ca"
  
  Throw an error if the model doesn't exist, insufficient amount of money was given, or the car is out of stock.
  */
+
+enum DealerError: Error {
+  case ModelNotFound
+  case NotEnoughMoney
+  case OutOfStock
+}
+
 class HondaDealership{
   
   var availableCarSupply = ["Civic" : (price: 5000, count: 5),
                             "CRV" : (price: 7000, count: 9),
                             "Prelude" : (price: 9000, count: 2)]
   
+  func sellCar(model: String, offeredPrice: Int) throws{
+    if let car = availableCarSupply[model]{
+      if  car.price > offeredPrice{
+        throw DealerError.NotEnoughMoney
+      }
+      if car.count == 0{
+        throw DealerError.OutOfStock
+      }
+      availableCarSupply[model]?.count -= 1
+    }
+    else{
+      throw DealerError.ModelNotFound
+    }
+    
+  }
   
-  
+}
+
+let dealer1 = HondaDealership()
+
+do{
+  //to get the wrong model exception
+  //try dealer1.sellCar(model: "Altima", offeredPrice: 1000)
+
+  //to get out of stock error
+  try dealer1.sellCar(model: "Prelude", offeredPrice: 10000)
+  try dealer1.sellCar(model: "Prelude", offeredPrice: 10000)
+  try dealer1.sellCar(model: "Prelude", offeredPrice: 10000)
+}catch let error{
+       print("An error is thrown: \(error)")
 }
 
 //: [Next](@next)
