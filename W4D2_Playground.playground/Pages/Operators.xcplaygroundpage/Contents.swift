@@ -45,6 +45,17 @@ let combinedValues = "abc" + 123
  - Experiment:
  Use the '*' operator to multiply a String and an Int. This returns a new String and repeats the given String the number of times delcared by the Int. ie: "abc" * 3 = "abcabcabc"
  */
+func * (left: String, right: Int) -> String {
+  var output: String = ""
+  
+  for _ in 0..<right{
+    output.append(left)
+  }
+  
+  return output
+}
+
+let multiplyValues = "abc" * 3
 
 
 /*:
@@ -57,13 +68,13 @@ let combinedValues = "abc" + 123
  */
 extension Int {
   
-  // Comment this function in to try it!
-  //    static func + (left: Int, right: Int) -> Int{
-  //
-  //        return left - right
-  //    }
+   //Comment this function in to try it!
+//      static func + (left: Int, right: Int) -> Int{
+//
+//          return left - right
+//      }
 }
-
+let strangeResult = 4 + 4
 
 /*:
  ### Custom Operators
@@ -86,7 +97,13 @@ var incrementTwo = incrementOne+++
  - Experiment:
  Create your own custom operator using the square root symbol here: √
  */
+postfix operator √
+postfix func √ (number: Double) -> Double {
+  
+  return sqrt(number)
+}
 
+let sqroot = 9.0√
 
 /*:
  ### Swift Operators Guidelines
@@ -99,7 +116,13 @@ var incrementTwo = incrementOne+++
  - Callout(Challenge):
  When we have percentage values, we tend to convert them into their decimal form before doing any arithmetic to them. Create an operator with the '%' that will be a convenient operator to convert Int values into a usable percentage value. ie: 10% = 0.1
  */
+postfix operator %
+postfix func % (number: Double) -> Double {
+  
+  return number / 100
+}
 
+let percent = 15%
 
 /*:
  - Callout(Challenge):
@@ -107,7 +130,31 @@ var incrementTwo = incrementOne+++
  
  For example, [1,2] + [3,4] = [4,6]. If the array count size are not the same, then return nil
  */
+extension Array where Element: Numeric {
+  
 
+  static func +(left: [Int], right:[Int]) -> [Int]? {
+  print("overload called")
+    //make sure the array counts are the same
+    guard left.count == right.count else
+    {
+      return nil
+    }
+    
+    var output: [Int] = [Int]()
+    for index in 0..<left.count{
+      output.append(left[index] + right[index])
+    }
+    
+  return output
+}
 
+}
+let array1 = [1, 2]
+let array2 = [3, 4]
+
+//let test = Array.my(left: array1, right: array2)
+
+let arraySum = array1 + array2
 
 //: [Next](@next)
