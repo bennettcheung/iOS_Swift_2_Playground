@@ -33,7 +33,11 @@ printMyTwoNumbers(num1: "three", num2: "four")
  - Experiment:
  Now you try! Write a generic function that takes in two parameters and multiply their value together and print the result. (Hint: You might run into an error after finishing. Continue to the next experiment to find out why!)
  */
-
+//func multiplyTwoNumbers<Element>(num1: Element, num2: Element){
+//  var output = num1 * num2
+//  print("The result is \(output)")
+//}
+//multiplyTwoNumbers(num1: 4, num2: 8)
 
 /*:
  - Experiment:
@@ -41,15 +45,17 @@ printMyTwoNumbers(num1: "three", num2: "four")
  */
 
 func multiply<Element: Numeric>(num1: Element, num2: Element) {
-  
+  let output = num1 * num2
+  print("The result is \(output)")
 }
-
-
+multiply(num1: 4, num2: 8)
+multiply(num1: 4.3, num2: 8.4)
+//multiply(num1: "Tes", num2: "fwe")
 /*:
  - Experiment:
  Update your multiplication function and test it! Try using different variable types to see what works and what doesn't.
  */
-
+//see above
 
 /*:
  - Experiment:
@@ -59,8 +65,17 @@ func multiply<Element: Numeric>(num1: Element, num2: Element) {
  - Note:
  For this experiment, refrain from using the array method `indexOf`. Also the protocol `Equatable` might be useful here. Search it up to see what it's about.
  */
+func findElementInArray<Element: Comparable>(array: [Element], value2:Element) -> Int? {
+  for index in 0..<array.count{
+    if value2 == array[index]{
+      return index
+    }
+  }
+  return nil
+}
 
-
+let numArray = [1,5,2,4];
+let result = findElementInArray(array: numArray, value2: 85)
 
 /*:
  - Callout(Challenge):
@@ -74,8 +89,26 @@ func multiply<Element: Numeric>(num1: Element, num2: Element) {
  - enqueue: add an item to the queue
  - dequeue: remove an item from the queue, and return the removed element
  */
+struct Queue<Element>
+{
+  var elementArray = [Element]()
 
+  mutating func enqueue(value: Element){
+    elementArray.append(value)
+  }
+  mutating func dequeue() -> Element {
+    return elementArray.remove(at: 0)
+  }
+}
 
+var myQueue:Queue<String> = Queue<String>()
+myQueue.enqueue(value: "Customer 1")
+myQueue.enqueue(value: "Customer 2")
+myQueue.enqueue(value: "Customer 3")
+
+print(myQueue)
+myQueue.dequeue()
+print(myQueue)
 
 //: [Next](@next)
 
