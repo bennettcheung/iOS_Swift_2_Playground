@@ -7,25 +7,27 @@
  - Experiment:
  Declare a optional Double value and set it to nil.
  */
-
+var someValue: Double?
 
 /*:
  - Experiment:
  Assign a value your optional Double.
  */
-
+someValue=10.4
 
 /*:
  - Experiment:
  Force unwrap the optional value. Why do you have to be careful about force unwrapping?
  */
-
+print ("\(someValue!)")
 
 /*:
  - Experiment:
  Use conditional unwrapping to verify if the optional has a value. Print the value if there is something, otherwise, print out to indicate there is no value present. Why is conditional unwrapping better than force unwrapping?
  */
-
+if let someValue=someValue {
+  print("\(someValue)")
+}
 
 /*:
  - Callout(Challenge):
@@ -33,6 +35,13 @@
  */
 var testData: [String?] = ["Heather", nil, "Mike", "John", nil, nil, "Bob"]
 
+var newArray: [String] = [String]()
+for index in 0..<testData.count {
+  if let data = testData[index]{
+    newArray.append(data)
+  }
+}
+print (newArray)
 
 /*:
  - Callout(Challenge):
