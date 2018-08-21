@@ -66,14 +66,14 @@ let multiplyValues = "abc" * 3
  - Note:
  Changing the behaviour of existing operators is discouraged in real projects as it can cause confusion.
  */
-extension Int {
-  
-   //Comment this function in to try it!
-//      static func + (left: Int, right: Int) -> Int{
+//extension Int {
+
+  //Comment this function in to try it!
+//  static func +(left: Int, right: Int) -> Int{
 //
-//          return left - right
-//      }
-}
+//    return left + right
+//  }
+//}
 let strangeResult = 4 + 4
 
 /*:
@@ -130,31 +130,30 @@ let percent = 15%
  
  For example, [1,2] + [3,4] = [4,6]. If the array count size are not the same, then return nil
  */
-extension Array where Element: Numeric {
-  
+//extension Array where Element: Numeric {
+//
 
-  static func +(left: [Int], right:[Int]) -> [Int]? {
+func +(left: [Int], right:[Int]) -> [Int]?
+{
   print("overload called")
-    //make sure the array counts are the same
-    guard left.count == right.count else
-    {
-      return nil
-    }
-    
-    var output: [Int] = [Int]()
-    for index in 0..<left.count{
-      output.append(left[index] + right[index])
-    }
-    
+  //make sure the array counts are the same
+  guard left.count == right.count else
+  {
+    return nil
+  }
+  
+  var output: [Int] = [Int]()
+  for index in 0..<left.count{
+    output.append(left[index] + right[index])
+  }
+  
   return output
 }
 
-}
+
 let array1 = [1, 2]
 let array2 = [3, 4]
 
 //let test = Array.my(left: array1, right: array2)
 
 let arraySum = array1 + array2
-
-//: [Next](@next)
