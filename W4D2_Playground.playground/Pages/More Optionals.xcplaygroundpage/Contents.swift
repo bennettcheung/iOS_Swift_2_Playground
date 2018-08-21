@@ -55,14 +55,15 @@ let password: String? = "password123"
 let email: String? = "user1@lighthouselabs.ca"
 
 // Should stop at password check and indicate password field is empty
-//let username: String? = "user1"
-//let password: String? = nil
-//let email: String? = "user1@lighthouselabs.ca"
+if password == nil {
+  print ("password is not defined")
+}
+
 
 // Should stop at username check and indicate username field is empty
-//let username: String? = nil
-//let password: String? = nil
-//let email: String? = "user1@lighthouselabs.ca"
+if username == nil {
+  print ("username is not defined")
+}
 
 
 
@@ -94,14 +95,33 @@ isMyNumberANegativeValue(myNumber: myNumber)
  - Experiment:
  Try creating your own guard statement with different conditional statements. Notice which boolean condition causes the code the enter the 'else' block or bypass it entirely.
  */
+func someFunction(){
+  
+  let someValue2 = 8
 
+  guard someValue2 > 9 else{
+    print ("number is smaller than 9")
+    return
+  }
+}
+
+someFunction()
 
 /*:
  - Experiment:
  Create a function that takes in two number parameters and divide them. We don't like dividing by zero, so ensure this doesn't happen. Otherwise, return the calculated value.
  */
 
+func divide (leftValue:Double, rightValue:Double) -> Double {
+  
+  guard rightValue == 0 else{
+    return leftValue / rightValue
+  }
+  print ("Undefined Value")
+  return 0
+}
 
+divide(leftValue: 4, rightValue: 2)
 /*:
  Let's take a look at another example and see how we can use guard for optionals
  */
@@ -132,7 +152,22 @@ isMyNumberAnOptional(myOptionalNumber: myOptionalNumber)
  - Experiment:
  Create a function that takes in an array of numbers. Have the function add all the numbers together and return the result. Make sure to `guard` against an empty array. Use `array.first` to check if there is at least one value in the array.
  */
+func sum(numbers:[Int])->Int{
+  
+  guard let number = numbers.first else{
+    print("array is empty")
+    return 0
+  }
+  var returnSum = 0
+  for index in 0..<numbers.count{
+    returnSum += numbers[index]
+  }
+  return returnSum
+}
 
+let numberArray = [3, 6, 8, 9, 10]
+
+sum(numbers:numberArray)
 
 /*:
  - Callout(Challenge):
